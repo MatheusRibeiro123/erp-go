@@ -5,6 +5,8 @@ import (
 	"erp-go/handlers"
 )
 
-func SetupRoutes() {
+func LoadRoutes() {
 	http.HandleFunc("/", handlers.Home)
+	http.HandleFunc("/products", handlers.Products)
+	http.HandleFunc("/clients", handlers.Clients)
 }
