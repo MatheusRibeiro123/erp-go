@@ -1,0 +1,8 @@
+.env
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgre
+DB_PASSWORD=8605
+DB_NAME=erp-go
+DB_SSL_MODE=disable
