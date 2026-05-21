@@ -1,7 +1,7 @@
 package main
 import "fmt"
 import "net/http"
-import "erp-go/routes"
+import "erp-go/internal/routes"
 
 func main() {
     routes.LoadRoutes()

@@ -2,7 +2,7 @@ package routes
 
 import (
 	"net/http"
-	"erp-go/handlers"
+	"erp-go/internal/handlers"
 )
 
 func LoadRoutes() {
