@@ -1,11 +1,32 @@
 package main
-import "fmt"
-import "net/http"
-import "erp-go/internal/routes"
+
+import ("fmt"
+        "log"
+        "net/http"
+
+        "erp-go/internal/routes"
+        "erp-go/internal/database"
+
+        "github.com/joho/godotenv"
+        )
 
 func main() {
+    
+    err := godotenv.Load()
+   
+    if err != nil {
+        log.Fatal("Error loading .env file")
+    }
+    
+    database.Connect()
+    
     routes.LoadRoutes()
     
     fmt.Println("Server is running on port 8080...")
-    http.ListenAndServe(":8080", nil)
+    
+    err = http.ListenAndServe(":8080", nil)
+    
+    if err != nil {
+        log.Fatal("Error starting server:", err)
+    }
 }
