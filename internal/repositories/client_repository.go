@@ -53,3 +53,15 @@ func (r *ClientRepository) GetByID(id int) (models.Client, error) {
 	}
 	return client, nil
 }
+
+func (r *ClientRepository) Create(client models.Client) (int, error) {
+	query := "INSERT INTO clients (name, email, phone, document) VALUES ($1, $2, $3, $4) RETURNING id"
+
+	var id int
+
+	err := r.DB.QueryRow(query, client.Name, client.Email, client.Phone, client.Document).Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
+}
