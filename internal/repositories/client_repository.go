@@ -37,7 +37,7 @@ func (r *ClientRepository) GetAll() ([]models.Client, error) {
 	return clients, nil
 
 }
-// Função para obter um cliente por ID *ainda não esta em funcionamento, falta corrigir
+
 
 func (r *ClientRepository) GetByID(id int) (models.Client, error) {
     query := "SELECT id , name , email , phone , document , created_at FROM clients WHERE id = $1"
@@ -46,10 +46,10 @@ func (r *ClientRepository) GetByID(id int) (models.Client, error) {
 	
 	var client models.Client
 
-	err = row.Scan(&client.ID, &client.Name, &client.Email, &client.Phone, &client.Document, &client.CreatedAt)
+	err := row.Scan(&client.ID, &client.Name, &client.Email, &client.Phone, &client.Document, &client.CreatedAt)
 	
 	if err != nil {
-		return nil, err
+		return models.Client{}, err
 	}
 	return client, nil
 }
