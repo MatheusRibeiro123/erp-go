@@ -1,8 +1,11 @@
 package handlers
 
-import "fmt"
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
+// parei aqui, vou criar o handler de clients
 func Clients(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Lista de clientes")
 }
