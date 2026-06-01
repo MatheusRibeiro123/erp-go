@@ -2,11 +2,12 @@ package routes
 
 import (
 	"erp-go/internal/handlers"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func LoadRoutes() {
-	http.HandleFunc("/", handlers.Home)
-	http.HandleFunc("/products", handlers.Products)
-	http.HandleFunc("/clients", handlers.Clients)
+func LoadRoutes(router *gin.Engine) {
+	router.GET("/", handlers.Home)
+	router.GET("/products", handlers.Products)
+	router.GET("/clients", handlers.Clients)
 }
