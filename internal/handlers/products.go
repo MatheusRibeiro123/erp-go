@@ -1,8 +1,7 @@
 package handlers
 
-import "fmt"
-import "net/http"
+import "github.com/gin-gonic/gin"
 
-func Products(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Lista de produtos")
+func Products(c *gin.Context) {
+	c.String(200, "Lista de produtos")
 }

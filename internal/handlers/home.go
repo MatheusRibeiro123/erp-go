@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "ERP running 🚀")
+func Home(c *gin.Context) {
+	c.String(200, "ERP running 🚀")
 }

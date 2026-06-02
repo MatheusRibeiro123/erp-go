@@ -1,11 +1,9 @@
 package handlers
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
-// parei aqui, vou criar o handler de clients
-func Clients(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Lista de clientes")
+func Clients(c *gin.Context) {
+	c.String(200, "Lista de clientes")
 }
