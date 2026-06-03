@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
+	"erp-go/internal/services"
 )
 
-func Clients(c *gin.Context) {
-	c.String(200, "Lista de clientes")
+type ClientHandler struct {
+	Service *services.ClientService
 }

@@ -5,7 +5,10 @@ import (
 	"log"
 
 	"erp-go/internal/database"
+	"erp-go/internal/handlers"
+	"erp-go/internal/repositories"
 	"erp-go/internal/routes"
+	"erp-go/internal/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -21,9 +24,13 @@ func main() {
 
 	database.Connect()
 
+	repo := &repositories.ClientRepository{DB: database.DB}
+	service := &services.ClientService{Repository: repo}
+	handler := &handlers.ClientHandler{Service: service}
+
 	router := gin.Default()
 
-	routes.LoadRoutes(router)
+	routes.LoadRoutes(router, handler)
 
 	fmt.Println("Server is running on port 8080...")
 
