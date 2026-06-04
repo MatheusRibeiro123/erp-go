@@ -30,7 +30,7 @@ func main() {
 
 	router := gin.Default()
 
-	routes.LoadRoutes(router, handler)
+	routes.LoadClientRoutes(router, handler)
 
 	fmt.Println("Server is running on port 8080...")
 
