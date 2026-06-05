@@ -1,45 +1,105 @@
 # ERP em Go
 
-Sistema ERP desenvolvido em Go com foco em aprendizado de arquitetura backend, organização de projeto e construção de uma API robusta e escalável.
+Sistema ERP desenvolvido em Go com foco em aprendizado de arquitetura backend profissional, APIs REST, PostgreSQL e boas práticas utilizadas no mercado.
 
 ## 🚀 Tecnologias
 
 * Go (Golang)
-* HTTP Server nativo
-* Arquitetura em camadas
+* PostgreSQL
+* Gin
+* Git/GitHub
 
-## 📁 Estrutura inicial
+## 🏗️ Arquitetura
+
+O projeto utiliza arquitetura em camadas:
+
+```text
+Handler
+↓
+Service
+↓
+Repository
+↓
+PostgreSQL
+```
+
+Responsabilidades:
+
+* Handler → Recebe e responde requisições HTTP
+* Service → Regras de negócio
+* Repository → Acesso ao banco de dados
+* PostgreSQL → Persistência dos dados
+
+## 📁 Estrutura do projeto
 
 ```bash
 erp-go/
 │
-├── handlers/
-├── routes/
+├── internal/
+│   ├── handlers/
+│   ├── services/
+│   ├── repositories/
+│   ├── models/
+│   ├── routes/
+│   └── database/
+│
 ├── main.go
 ├── go.mod
+└── go.sum
 ```
 
-## 📌 Objetivo do projeto
+## 📌 Objetivos do projeto
 
 Este projeto está sendo desenvolvido para estudar:
 
-* Estruturação de APIs em Go
-* Organização backend profissional
-* Rotas e handlers
+* Desenvolvimento backend com Go
+* APIs REST
 * Arquitetura em camadas
-* Integração com banco de dados
-* Autenticação e segurança
-* Desenvolvimento de um ERP completo
+* Injeção de dependências
+* PostgreSQL
+* Organização profissional de projetos
+* Tratamento de erros
+* Autenticação e autorização
+* Boas práticas de mercado
+
+## ✅ Funcionalidades implementadas
+
+### Clientes
+
+* Buscar todos os clientes (`GET /clients`)
+* Buscar cliente por ID (`GET /clients/:id`)
 
 ## ⚙️ Funcionalidades planejadas
 
-* Cadastro de clientes
+### Clientes
+
+* Criar cliente
+* Atualizar cliente
+* Remover cliente
+
+### Produtos
+
 * Cadastro de produtos
 * Controle de estoque
-* Sistema de vendas
-* Controle financeiro
-* Login e permissões
+
+### Vendas
+
+* Registro de vendas
+* Movimentação de estoque
+
+### Financeiro
+
+* Controle de contas
+* Fluxo de caixa
+
+### Segurança
+
+* Login
+* JWT
+* Controle de permissões
 
 ## 📚 Status do projeto
 
 🚧 Em desenvolvimento
+
+Projeto criado para fins de estudo, portfólio e preparação para oportunidades na área de desenvolvimento backend com Go.
