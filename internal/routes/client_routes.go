@@ -9,4 +9,5 @@ import (
 func LoadClientRoutes(router *gin.Engine, handler *handlers.ClientHandler) {
 	router.GET("/clients", handler.GetAll)
 	router.GET("/clients/:id", handler.GetByID)
+	router.POST("/clients", handler.Create)
 }
