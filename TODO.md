@@ -3,10 +3,10 @@
 ## Clients CRUD
 
 * [x] Criar client_repository.go
-* [ ] Criar client_service.go
-* [ ] Criar client_handler.go
-* [ ] Criar rotas de clients
-* [ ] Testar CRUD de clients
+* [x] Criar client_service.go
+* [x] Criar client_handler.go
+* [x] Criar rotas de clients
+* [x] Testar CRUD de clients
 
 ### ClientRepository concluído
 
@@ -15,6 +15,14 @@
 * [x] Create()
 * [x] Update()
 * [x] Delete()
+
+### Melhorias Clients
+
+* [ ] Implementar retorno 404 para cliente não encontrado
+* [ ] Adicionar validações de entrada (nome, email, documento)
+* [ ] Melhorar Update para manter valores atuais quando um campo não for enviado
+* [ ] Estudar implementação de PATCH /clients/:id
+* [ ] Melhorar tratamento de erros do banco
 
 ---
 

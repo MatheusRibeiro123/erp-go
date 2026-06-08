@@ -9,3 +9,10 @@ type CreateClientInput struct {
 
 	Document string `json:"document"`
 }
+
+type UpdateClientInput struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+	Document string `json:"document"`
+}
