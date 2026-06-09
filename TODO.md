@@ -18,12 +18,21 @@
 
 ### Melhorias Clients
 
+#### Tratamento de erros
 * [ ] Implementar retorno 404 para cliente não encontrado
-* [ ] Adicionar validações de entrada (nome, email, documento)
+* [ ] Diferenciar erros de validação (400), recurso não encontrado (404) e erros internos (500)
+* [ ] Melhorar tratamento de erros do PostgreSQL
+
+#### Validações
+* [ ] Adicionar validações de entrada (nome obrigatório, email válido, documento obrigatório)
+
+#### Atualizações
 * [ ] Melhorar Update para manter valores atuais quando um campo não for enviado
 * [ ] Estudar implementação de PATCH /clients/:id
-* [ ] Melhorar tratamento de erros do banco
 
+#### Regras de negócio
+* [ ] Verificar duplicidade de email
+* [ ] Verificar duplicidade de documento
 ---
 
 ## Products CRUD
