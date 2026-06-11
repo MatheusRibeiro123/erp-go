@@ -37,8 +37,8 @@
 
 ## Products CRUD
 
-* [ ] Criar product_repository.go
-* [ ] Criar product_service.go
+* [x] Criar product_repository.go
+* [x] Criar product_service.go
 * [ ] Criar product_handler.go
 * [ ] Criar rotas de products
 * [ ] Testar CRUD de products
