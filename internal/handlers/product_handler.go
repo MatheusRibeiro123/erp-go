@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"erp-go/internal/dto"
+	"erp-go/internal/models"
 	"erp-go/internal/services"
 	"net/http"
 	"strconv"
@@ -40,4 +42,31 @@ func (h *ProductHandler) GetByID(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, product)
+}
+
+// handler para criar um novo produto
+func (h *ProductHandler) Create(c *gin.Context) {
+
+	var input dto.CreateProductInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	product := models.Product{
+		Name:          input.Name,
+		Description:   input.Description,
+		Price:         input.Price,
+		StockQuantity: input.StockQuantity,
+	}
+
+	id, err := h.Service.Create(product)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"id": id})
 }
