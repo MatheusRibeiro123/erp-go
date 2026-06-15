@@ -68,5 +68,56 @@ func (h *ProductHandler) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"id": id})
+	c.JSON(http.StatusCreated, gin.H{"id": id})
+}
+
+// handler para atualizar um produto existente
+func (h *ProductHandler) Update(c *gin.Context) {
+
+	id := c.Param("id")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
+	var input dto.UpdateProductInput
+	err = c.ShouldBindJSON(&input)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	product := models.Product{
+		Name:          input.Name,
+		Description:   input.Description,
+		Price:         input.Price,
+		StockQuantity: input.StockQuantity,
+	}
+
+	err = h.Service.Update(idInt, product)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})
+}
+
+// handler para deletar um produto
+func (h *ProductHandler) Delete(c *gin.Context) {
+
+	id := c.Param("id")
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
+	err = h.Service.Delete(idInt)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
 }

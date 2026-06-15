@@ -6,10 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func LoadClientRoutes(router *gin.Engine, handler *handlers.ClientHandler) {
-	router.GET("/clients", handler.GetAll)
-	router.GET("/clients/:id", handler.GetByID)
-	router.POST("/clients", handler.Create)
-	router.PUT("/clients/:id", handler.Update)
-	router.DELETE("/clients/:id", handler.Delete)
+func LoadClientRoutes(router *gin.Engine, clientHandler *handlers.ClientHandler) {
+	router.GET("/clients", clientHandler.GetAll)
+	router.GET("/clients/:id", clientHandler.GetByID)
+	router.POST("/clients", clientHandler.Create)
+	router.PUT("/clients/:id", clientHandler.Update)
+	router.DELETE("/clients/:id", clientHandler.Delete)
 }

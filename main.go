@@ -24,13 +24,18 @@ func main() {
 
 	database.Connect()
 
-	repo := &repositories.ClientRepository{DB: database.DB}
-	service := &services.ClientService{Repository: repo}
-	handler := &handlers.ClientHandler{Service: service}
+	clientRepo := &repositories.ClientRepository{DB: database.DB}
+	clientService := &services.ClientService{Repository: clientRepo}
+	clientHandler := &handlers.ClientHandler{Service: clientService}
+
+	prodRepo := &repositories.ProductRepository{DB: database.DB}
+	prodService := &services.ProductService{Repository: prodRepo}
+	prodHandler := &handlers.ProductHandler{Service: prodService}
 
 	router := gin.Default()
 
-	routes.LoadClientRoutes(router, handler)
+	routes.LoadClientRoutes(router, clientHandler)
+	routes.LoadProductRoutes(router, prodHandler)
 
 	fmt.Println("Server is running on port 8080...")
 
