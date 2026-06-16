@@ -3,11 +3,12 @@ package repositories
 import (
 	"database/sql"
 	"erp-go/internal/models"
-)	
+)
 
 type ClientRepository struct {
 	DB *sql.DB
 }
+
 // função para obter todos os clientes do banco de dados
 
 func (r *ClientRepository) GetAll() ([]models.Client, error) {
@@ -42,19 +43,20 @@ func (r *ClientRepository) GetAll() ([]models.Client, error) {
 // função para obter um cliente específico pelo ID
 
 func (r *ClientRepository) GetByID(id int) (models.Client, error) {
-    query := "SELECT id , name , email , phone , document , created_at FROM clients WHERE id = $1"
+	query := "SELECT id , name , email , phone , document , created_at FROM clients WHERE id = $1"
 
 	row := r.DB.QueryRow(query, id)
-	
+
 	var client models.Client
 
 	err := row.Scan(&client.ID, &client.Name, &client.Email, &client.Phone, &client.Document, &client.CreatedAt)
-	
+
 	if err != nil {
 		return models.Client{}, err
 	}
 	return client, nil
 }
+
 //função para criar um novo cliente no banco de dados
 
 func (r *ClientRepository) Create(client models.Client) (int, error) {
@@ -68,17 +70,18 @@ func (r *ClientRepository) Create(client models.Client) (int, error) {
 	}
 	return id, nil
 }
+
 // função para atualizar um cliente existente no banco de dados
 
 func (r *ClientRepository) Update(id int, client models.Client) error {
 
 	query := "UPDATE clients SET name = $1, email = $2, phone = $3, document = $4 WHERE id = $5"
 
-	_, err := r.DB.Exec(query, client.Name, client.Email, client.Phone, client.Document, id) 
+	_, err := r.DB.Exec(query, client.Name, client.Email, client.Phone, client.Document, id)
 
 	return err
-	
-	}
+
+}
 
 // função para excluir um cliente do banco de dados
 

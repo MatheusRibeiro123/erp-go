@@ -1,12 +1,11 @@
 package dto
 
+// dto para criação, atualização e patch de clientes
+
 type CreateClientInput struct {
-	Name string `json:"name"`
-
-	Email string `json:"email"`
-
-	Phone string `json:"phone"`
-
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
 	Document string `json:"document"`
 }
 
@@ -15,4 +14,11 @@ type UpdateClientInput struct {
 	Email    string `json:"email"`
 	Phone    string `json:"phone"`
 	Document string `json:"document"`
+}
+
+type PatchClientInput struct {
+	Name     *string `json:"name"`
+	Email    *string `json:"email"`
+	Phone    *string `json:"phone"`
+	Document *string `json:"document"`
 }

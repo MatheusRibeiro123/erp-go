@@ -39,6 +39,6 @@
 
 * [x] Criar product_repository.go
 * [x] Criar product_service.go
-* [ ] Criar product_handler.go
-* [ ] Criar rotas de products
-* [ ] Testar CRUD de products
+* [x] Criar product_handler.go
+* [x] Criar rotas de products
+* [x] Testar CRUD de products
