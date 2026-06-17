@@ -133,3 +133,30 @@ func (h *ClientHandler) Delete(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Client deleted successfully"})
 }
+
+// handler para atualizar parcialmente um cliente existente
+func (h *ClientHandler) Patch(c *gin.Context) {
+	id := c.Param("id")
+	idInt, err := strconv.Atoi(id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
+	var input dto.PatchClientInput
+
+	err = c.ShouldBindJSON(&input)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = h.Service.Patch(idInt, input)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Client updated successfully"})
+}
