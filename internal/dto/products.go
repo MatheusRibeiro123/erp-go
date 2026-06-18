@@ -1,5 +1,6 @@
 package dto
 
+// Product DTOs
 type CreateProductInput struct {
 	Name          string  `json:"name"`
 	Description   string  `json:"description"`
@@ -12,4 +13,11 @@ type UpdateProductInput struct {
 	Description   string  `json:"description"`
 	Price         float64 `json:"price"`
 	StockQuantity int     `json:"stock_quantity"`
+}
+
+type PatchProductInput struct {
+	Name          *string  `json:"name"`
+	Description   *string  `json:"description"`
+	Price         *float64 `json:"price"`
+	StockQuantity *int     `json:"stock_quantity"`
 }

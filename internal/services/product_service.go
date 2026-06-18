@@ -1,6 +1,7 @@
 package services
 
 import (
+	"erp-go/internal/dto"
 	"erp-go/internal/models"
 	"erp-go/internal/repositories"
 )
@@ -32,4 +33,28 @@ func (s *ProductService) Update(id int, product models.Product) error {
 // serviço para excluir um produto, delegando a responsabilidade para o repositório
 func (s *ProductService) Delete(id int) error {
 	return s.Repository.Delete(id)
+}
+
+// serviço para atualizar parcialmente um produto
+
+func (s *ProductService) Patch(id int, input dto.PatchProductInput) error {
+	produto, err := s.Repository.GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	if input.Name != nil {
+		produto.Name = *input.Name
+	}
+	if input.Description != nil {
+		produto.Description = *input.Description
+	}
+	if input.Price != nil {
+		produto.Price = *input.Price
+	}
+	if input.StockQuantity != nil {
+		produto.StockQuantity = *input.StockQuantity
+	}
+
+	return s.Repository.Update(id, produto)
 }

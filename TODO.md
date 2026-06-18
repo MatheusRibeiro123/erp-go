@@ -22,7 +22,7 @@
 
 * [x] Estudar implementação de PATCH /clients/:id
 * [x] Implementar PATCH /clients/:id
-* [ ] Testar PATCH /clients/:id
+* [x] Testar PATCH /clients/:id
 
 #### Tratamento de erros
 
@@ -61,8 +61,13 @@
 
 #### Atualizações
 
-* [ ] Implementar PATCH /products/:id
-* [ ] Testar PATCH /products/:id
+* [x] Implementar PATCH /products/:id
+* [x] Testar PATCH /products/:id
+
+#### Tratamento de erros
+
+* [ ] Implementar retorno 404 para produto não encontrado
+* [ ] Diferenciar erros de validação (400), recurso não encontrado (404) e erros internos (500)
 
 #### Validações
 
@@ -86,7 +91,7 @@
 
 ## Próximos módulos
 
-* [ ] Categories
+* [ ] Categories (próximo módulo recomendado)
 * [ ] Suppliers
 * [ ] Orders
 * [ ] Users

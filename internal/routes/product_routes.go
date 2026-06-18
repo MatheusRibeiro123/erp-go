@@ -12,4 +12,5 @@ func LoadProductRoutes(router *gin.Engine, prodHandler *handlers.ProductHandler)
 	router.POST("/products", prodHandler.Create)
 	router.PUT("/products/:id", prodHandler.Update)
 	router.DELETE("/products/:id", prodHandler.Delete)
+	router.PATCH("/products/:id", prodHandler.Patch)
 }
