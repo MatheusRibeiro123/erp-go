@@ -3,11 +3,14 @@ package repositories
 import (
 	"database/sql"
 	"erp-go/internal/models"
+	"errors"
 )
 
 type ClientRepository struct {
 	DB *sql.DB
 }
+
+var ErrClientNotFound = errors.New("client not found")
 
 // função para obter todos os clientes do banco de dados
 
@@ -52,6 +55,9 @@ func (r *ClientRepository) GetByID(id int) (models.Client, error) {
 	err := row.Scan(&client.ID, &client.Name, &client.Email, &client.Phone, &client.Document, &client.CreatedAt)
 
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.Client{}, ErrClientNotFound
+		}
 		return models.Client{}, err
 	}
 	return client, nil
