@@ -83,9 +83,21 @@ func (r *ClientRepository) Update(id int, client models.Client) error {
 
 	query := "UPDATE clients SET name = $1, email = $2, phone = $3, document = $4 WHERE id = $5"
 
-	_, err := r.DB.Exec(query, client.Name, client.Email, client.Phone, client.Document, id)
+	result, err := r.DB.Exec(query, client.Name, client.Email, client.Phone, client.Document, id)
+	if err != nil {
+		return err
+	}
 
-	return err
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return ErrClientNotFound
+	}
+
+	return nil
 
 }
 
@@ -95,7 +107,19 @@ func (r *ClientRepository) Delete(id int) error {
 
 	query := "DELETE FROM clients WHERE id = $1"
 
-	_, err := r.DB.Exec(query, id)
+	result, err := r.DB.Exec(query, id)
+	if err != nil {
+		return err
+	}
 
-	return err
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return ErrClientNotFound
+	}
+
+	return nil
 }
