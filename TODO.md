@@ -26,8 +26,8 @@
 
 #### Tratamento de erros
 
-* [ ] Implementar retorno 404 para cliente não encontrado
-* [ ] Diferenciar erros de validação (400), recurso não encontrado (404) e erros internos (500)
+* [x] Implementar retorno 404 para cliente não encontrado
+* [x] Diferenciar erros de validação (400), recurso não encontrado (404) e erros internos (500)
 * [ ] Melhorar tratamento de erros do PostgreSQL
 
 #### Validações
@@ -83,7 +83,7 @@
 
 ## Melhorias REST
 
-* [ ] Retornar 201 Created nos POSTs
+* [x] Retornar 201 Created nos POSTs
 * [ ] Retornar 204 No Content nos DELETEs
 * [ ] Padronizar respostas da API
 
