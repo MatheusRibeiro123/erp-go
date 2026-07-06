@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"erp-go/internal/apperrors"
 	"erp-go/internal/models"
 	"errors"
 )
@@ -19,7 +20,7 @@ func (r *ClientRepository) GetAll() ([]models.Client, error) {
 
 	rows, err := r.DB.Query(query)
 	if err != nil {
-		return nil, err
+		return nil, apperrors.TranslatePostgresError(err)
 	}
 	defer rows.Close()
 
@@ -37,7 +38,7 @@ func (r *ClientRepository) GetAll() ([]models.Client, error) {
 	}
 
 	if err = rows.Err(); err != nil {
-		return nil, err
+		return nil, apperrors.TranslatePostgresError(err)
 	}
 	return clients, nil
 
@@ -56,9 +57,9 @@ func (r *ClientRepository) GetByID(id int) (models.Client, error) {
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return models.Client{}, ErrClientNotFound
+			return models.Client{}, apperrors.ErrNotFound
 		}
-		return models.Client{}, err
+		return models.Client{}, apperrors.TranslatePostgresError(err)
 	}
 	return client, nil
 }
