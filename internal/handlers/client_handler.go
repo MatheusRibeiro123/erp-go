@@ -3,11 +3,12 @@ package handlers
 import (
 	"erp-go/internal/dto"
 	"erp-go/internal/models"
-	"erp-go/internal/repositories"
 	"erp-go/internal/services"
 	"errors"
 	"net/http"
 	"strconv"
+
+	"erp-go/internal/apperrors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -44,7 +45,7 @@ func (h *ClientHandler) GetByID(c *gin.Context) {
 	client, err := h.Service.GetByID(idInt)
 
 	if err != nil {
-		if errors.Is(err, repositories.ErrClientNotFound) {
+		if errors.Is(err, apperrors.ErrNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
 			return
 		}
@@ -113,7 +114,7 @@ func (h *ClientHandler) Update(c *gin.Context) {
 
 	if err != nil {
 
-		if errors.Is(err, repositories.ErrClientNotFound) {
+		if errors.Is(err, apperrors.ErrNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
 			return
 		}
@@ -139,7 +140,7 @@ func (h *ClientHandler) Delete(c *gin.Context) {
 	err = h.Service.Delete(idInt)
 
 	if err != nil {
-		if errors.Is(err, repositories.ErrClientNotFound) {
+		if errors.Is(err, apperrors.ErrNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
 			return
 		}
@@ -170,7 +171,7 @@ func (h *ClientHandler) Patch(c *gin.Context) {
 
 	err = h.Service.Patch(idInt, input)
 	if err != nil {
-		if errors.Is(err, repositories.ErrClientNotFound) {
+		if errors.Is(err, apperrors.ErrNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
 			return
 		}

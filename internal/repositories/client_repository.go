@@ -4,14 +4,11 @@ import (
 	"database/sql"
 	"erp-go/internal/apperrors"
 	"erp-go/internal/models"
-	"errors"
 )
 
 type ClientRepository struct {
 	DB *sql.DB
 }
-
-var ErrClientNotFound = errors.New("client not found")
 
 // função para obter todos os clientes do banco de dados
 
@@ -73,7 +70,7 @@ func (r *ClientRepository) Create(client models.Client) (int, error) {
 
 	err := r.DB.QueryRow(query, client.Name, client.Email, client.Phone, client.Document).Scan(&id)
 	if err != nil {
-		return 0, err
+		return 0, apperrors.TranslatePostgresError(err)
 	}
 	return id, nil
 }
@@ -86,7 +83,7 @@ func (r *ClientRepository) Update(id int, client models.Client) error {
 
 	result, err := r.DB.Exec(query, client.Name, client.Email, client.Phone, client.Document, id)
 	if err != nil {
-		return err
+		return apperrors.TranslatePostgresError(err)
 	}
 
 	rowsAffected, err := result.RowsAffected()
@@ -95,7 +92,7 @@ func (r *ClientRepository) Update(id int, client models.Client) error {
 	}
 
 	if rowsAffected == 0 {
-		return ErrClientNotFound
+		return apperrors.ErrNotFound
 	}
 
 	return nil
@@ -110,7 +107,7 @@ func (r *ClientRepository) Delete(id int) error {
 
 	result, err := r.DB.Exec(query, id)
 	if err != nil {
-		return err
+		return apperrors.TranslatePostgresError(err)
 	}
 
 	rowsAffected, err := result.RowsAffected()
@@ -119,7 +116,7 @@ func (r *ClientRepository) Delete(id int) error {
 	}
 
 	if rowsAffected == 0 {
-		return ErrClientNotFound
+		return apperrors.ErrNotFound
 	}
 
 	return nil
