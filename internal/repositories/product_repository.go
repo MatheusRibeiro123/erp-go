@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"erp-go/internal/apperrors"
 	"erp-go/internal/models"
 )
 
@@ -16,7 +17,7 @@ func (r *ProductRepository) GetAll() ([]models.Product, error) {
 
 	rows, err := r.DB.Query(query)
 	if err != nil {
-		return nil, err
+		return nil, apperrors.TranslatePostgresError(err)
 	}
 
 	defer rows.Close()
@@ -35,7 +36,7 @@ func (r *ProductRepository) GetAll() ([]models.Product, error) {
 	}
 
 	if err = rows.Err(); err != nil {
-		return nil, err
+		return nil, apperrors.TranslatePostgresError(err)
 	}
 
 	return products, nil
@@ -51,7 +52,10 @@ func (r *ProductRepository) GetByID(id int) (models.Product, error) {
 
 	err := row.Scan(&product.ID, &product.Name, &product.Description, &product.StockQuantity, &product.Price, &product.CreatedAt)
 	if err != nil {
-		return models.Product{}, err
+		if err == sql.ErrNoRows {
+			return models.Product{}, apperrors.ErrNotFound
+		}
+		return models.Product{}, apperrors.TranslatePostgresError(err)
 	}
 
 	return product, nil
@@ -66,7 +70,7 @@ func (r *ProductRepository) Create(product models.Product) (int, error) {
 
 	err := r.DB.QueryRow(query, product.Name, product.Description, product.StockQuantity, product.Price).Scan(&id)
 	if err != nil {
-		return 0, err
+		return 0, apperrors.TranslatePostgresError(err)
 	}
 
 	return id, nil
@@ -76,9 +80,18 @@ func (r *ProductRepository) Create(product models.Product) (int, error) {
 func (r *ProductRepository) Update(id int, product models.Product) error {
 	query := "UPDATE products SET name = $1, description = $2, stock_quantity = $3, price = $4 WHERE id = $5"
 
-	_, err := r.DB.Exec(query, product.Name, product.Description, product.StockQuantity, product.Price, id)
+	result, err := r.DB.Exec(query, product.Name, product.Description, product.StockQuantity, product.Price, id)
+	if err != nil {
+		return apperrors.TranslatePostgresError(err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
 		return err
+	}
+
+	if rowsAffected == 0 {
+		return apperrors.ErrNotFound
 	}
 
 	return nil
@@ -88,9 +101,18 @@ func (r *ProductRepository) Update(id int, product models.Product) error {
 func (r *ProductRepository) Delete(id int) error {
 	query := "DELETE FROM products WHERE id = $1"
 
-	_, err := r.DB.Exec(query, id)
+	result, err := r.DB.Exec(query, id)
+	if err != nil {
+		return apperrors.TranslatePostgresError(err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
 	if err != nil {
 		return err
+	}
+
+	if rowsAffected == 0 {
+		return apperrors.ErrNotFound
 	}
 
 	return nil
