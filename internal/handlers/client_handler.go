@@ -4,7 +4,6 @@ import (
 	"erp-go/internal/dto"
 	"erp-go/internal/models"
 	"erp-go/internal/services"
-	"errors"
 	"net/http"
 	"strconv"
 
@@ -23,7 +22,7 @@ func (h *ClientHandler) GetAll(c *gin.Context) {
 	clients, err := h.Service.GetAll()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 
@@ -38,18 +37,14 @@ func (h *ClientHandler) GetByID(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid client ID"})
 		return
 	}
 
 	client, err := h.Service.GetByID(idInt)
 
 	if err != nil {
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 
@@ -77,7 +72,7 @@ func (h *ClientHandler) Create(c *gin.Context) {
 	id, err := h.Service.Create(client)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 
@@ -91,7 +86,7 @@ func (h *ClientHandler) Update(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid client ID"})
 		return
 	}
 
@@ -113,13 +108,7 @@ func (h *ClientHandler) Update(c *gin.Context) {
 	err = h.Service.Update(idInt, client)
 
 	if err != nil {
-
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
-			return
-		}
-
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 
@@ -133,18 +122,14 @@ func (h *ClientHandler) Delete(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid client ID"})
 		return
 	}
 
 	err = h.Service.Delete(idInt)
 
 	if err != nil {
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 
@@ -157,7 +142,7 @@ func (h *ClientHandler) Patch(c *gin.Context) {
 	idInt, err := strconv.Atoi(id)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid client ID"})
 		return
 	}
 
@@ -171,11 +156,7 @@ func (h *ClientHandler) Patch(c *gin.Context) {
 
 	err = h.Service.Patch(idInt, input)
 	if err != nil {
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Client not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 
