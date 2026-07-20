@@ -5,7 +5,6 @@ import (
 	"erp-go/internal/dto"
 	"erp-go/internal/models"
 	"erp-go/internal/services"
-	"errors"
 	"net/http"
 
 	"strconv"
@@ -22,7 +21,7 @@ func (h *ProductHandler) GetAll(c *gin.Context) {
 
 	products, err := h.Service.GetAll()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 	c.JSON(http.StatusOK, products)
@@ -42,12 +41,9 @@ func (h *ProductHandler) GetByID(c *gin.Context) {
 	product, err := h.Service.GetByID(idInt)
 
 	if err != nil {
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
+
 	}
 	c.JSON(http.StatusOK, product)
 }
@@ -59,7 +55,7 @@ func (h *ProductHandler) Create(c *gin.Context) {
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
@@ -73,11 +69,7 @@ func (h *ProductHandler) Create(c *gin.Context) {
 	id, err := h.Service.Create(product)
 
 	if err != nil {
-		if errors.Is(err, apperrors.ErrDuplicateKey) {
-			c.JSON(http.StatusConflict, gin.H{"error": "Product already exists"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 
@@ -98,7 +90,7 @@ func (h *ProductHandler) Update(c *gin.Context) {
 	err = c.ShouldBindJSON(&input)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
@@ -111,17 +103,7 @@ func (h *ProductHandler) Update(c *gin.Context) {
 
 	err = h.Service.Update(idInt, product)
 	if err != nil {
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
-			return
-		}
-
-		if errors.Is(err, apperrors.ErrDuplicateKey) {
-			c.JSON(http.StatusConflict, gin.H{"error": "Product already exists"})
-			return
-		}
-
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})
@@ -139,11 +121,7 @@ func (h *ProductHandler) Delete(c *gin.Context) {
 
 	err = h.Service.Delete(idInt)
 	if err != nil {
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
@@ -161,17 +139,13 @@ func (h *ProductHandler) Patch(c *gin.Context) {
 	var input dto.PatchProductInput
 	err = c.ShouldBindJSON(&input)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
 	err = h.Service.Patch(idInt, input)
 	if err != nil {
-		if errors.Is(err, apperrors.ErrNotFound) {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		apperrors.HandleError(c, err)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})

@@ -17,7 +17,7 @@
 - [x] PATCH
 - [x] Retorno 404 para recurso não encontrado
 - [x] Tratamento centralizado de erros do PostgreSQL
-- [ ] Aplicar Error Handler global
+- [x] Aplicar Error Handler global
 - [ ] Validar entradas (DTO + Binding Gin)
 
 ---
