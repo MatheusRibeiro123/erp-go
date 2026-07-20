@@ -19,16 +19,16 @@ O projeto simula a construção de um sistema ERP real, aplicando conceitos como
 
 O projeto utiliza arquitetura em camadas:
 
-
+```text
 Handler → Service → Repository → PostgreSQL
-
+```
 
 ### Responsabilidades
 
-* Handler → Recebe requisições HTTP e retorna respostas
-* Service → Regras de negócio
-* Repository → Acesso ao banco de dados
-* PostgreSQL → Persistência dos dados
+* Handler → Recebe requisições HTTP, valida entradas e retorna respostas.
+* Service → Contém as regras de negócio da aplicação.
+* Repository → Responsável pelo acesso ao banco de dados.
+* PostgreSQL → Persistência dos dados.
 
 ---
 
@@ -38,19 +38,19 @@ Handler → Service → Repository → PostgreSQL
 erp-go/
 │
 ├── internal/
-│ ├── handlers/
-│ ├── services/
-│ ├── repositories/
-│ ├── dto/
-│ ├── models/
-│ ├── routes/
-│ └── database/
+│   ├── apperrors/
+│   ├── handlers/
+│   ├── services/
+│   ├── repositories/
+│   ├── dto/
+│   ├── models/
+│   ├── routes/
+│   └── database/
 │
 ├── main.go
 ├── go.mod
 └── go.sum
 ```
-
 
 ---
 
@@ -76,11 +76,13 @@ Este projeto está sendo desenvolvido para estudar:
 * Separação de responsabilidades
 * DTOs para entrada de dados
 * Injeção de dependências
-* Tratamento de erros com errors.Is
-* Tradução de erros SQL → domínio
+* Tratamento de erros com `errors.Is`
+* Tradução de erros do PostgreSQL para erros da aplicação
+* Error Handler global para respostas HTTP
+* Centralização do tratamento de erros
 * Uso de PATCH com ponteiros
-* Uso de RowsAffected() para updates/deletes
-* Status HTTP corretos (200, 201, 400, 404, 500)
+* Uso de `RowsAffected()` para updates e deletes
+* Status HTTP corretos (200, 201, 400, 404, 409 e 500)
 
 ---
 
@@ -90,14 +92,16 @@ Este projeto está sendo desenvolvido para estudar:
 
 CRUD completo de clientes
 
-* GET /clients → listar todos os clientes
-* GET /clients/:id → buscar cliente por ID
-* POST /clients → criar cliente
-* PUT /clients/:id → atualizar cliente
-* PATCH /clients/:id → atualização parcial
-* DELETE /clients/:id → remover cliente
-* Tratamento de erros HTTP (400, 404, 500)
-* Uso de DTOs para entrada de dados
+* GET `/clients` → listar todos os clientes
+* GET `/clients/:id` → buscar cliente por ID
+* POST `/clients` → criar cliente
+* PUT `/clients/:id` → atualizar cliente
+* PATCH `/clients/:id` → atualização parcial
+* DELETE `/clients/:id` → remover cliente
+* DTOs para entrada de dados
+* Tratamento centralizado de erros
+* Tradução de erros do PostgreSQL
+* Respostas HTTP (200, 201, 400, 404, 409 e 500)
 
 ---
 
@@ -105,12 +109,16 @@ CRUD completo de clientes
 
 CRUD completo de produtos
 
-* GET /products → listar todos os produtos
-* GET /products/:id → buscar produto por ID
-* POST /products → criar produto
-* PUT /products/:id → atualizar produto
-* PATCH /products/:id → atualização parcial
-* DELETE /products/:id → remover produto
+* GET `/products` → listar todos os produtos
+* GET `/products/:id` → buscar produto por ID
+* POST `/products` → criar produto
+* PUT `/products/:id` → atualizar produto
+* PATCH `/products/:id` → atualização parcial
+* DELETE `/products/:id` → remover produto
+* DTOs para entrada de dados
+* Tratamento centralizado de erros
+* Tradução de erros do PostgreSQL
+* Respostas HTTP (200, 201, 400, 404, 409 e 500)
 
 ---
 
@@ -120,25 +128,30 @@ CRUD completo de produtos
 
 ### Progresso atual
 
-* Clients CRUD → concluído
-* Products CRUD → concluído
-* Tratamento de erros → implementado em Clients e em expansão para Products
-* Validações de negócio → pendente
-* Categories → próximo módulo
+* ✅ Clients CRUD
+* ✅ Products CRUD
+* ✅ Tradução de erros do PostgreSQL
+* ✅ Error Handler global
+* 🔄 Padronização das respostas da API
+* ⏳ Validações com Gin Binding
+* ⏳ Regras de negócio
+* ⏳ Módulo Categories
 
 ---
 
 ## 🔥 Próximos passos
 
-* Implementar validações completas (Clients e Products)
-* Regras de negócio (duplicidade de email/documento)
-* Padronização de responses da API
-* Módulo Categories
-* Autenticação JWT
-* Paginação e filtros de busca
+* Padronizar respostas da API
+* Implementar validações com Gin Binding
+* Adicionar regras de negócio
+* Criar módulo Categories
+* Implementar autenticação JWT
+* Adicionar paginação e filtros de busca
 
 ---
 
 ## 🎯 Observação
 
-Este projeto não é apenas um CRUD simples. Ele está sendo construído com foco em arquitetura, entendimento profundo de fluxo de dados e boas práticas de backend utilizadas em sistemas reais.
+Este projeto não é apenas um CRUD simples. Ele está sendo desenvolvido com foco em arquitetura backend, entendimento do fluxo completo entre as camadas da aplicação e aplicação de boas práticas utilizadas em projetos profissionais.
+
+O objetivo é construir um backend escalável e bem organizado, priorizando a compreensão dos conceitos por trás de cada implementação, em vez de apenas desenvolver funcionalidades.
