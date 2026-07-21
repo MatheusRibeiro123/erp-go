@@ -3,17 +3,17 @@ package dto
 // dto para criação, atualização e patch de clientes
 
 type CreateClientInput struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Phone    string `json:"phone"`
-	Document string `json:"document"`
+	Name     string `json:"name" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Phone    string `json:"phone" binding:"required"`
+	Document string `json:"document" binding:"required"`
 }
 
 type UpdateClientInput struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Phone    string `json:"phone"`
-	Document string `json:"document"`
+	Name     string `json:"name" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Phone    string `json:"phone" binding:"required"`
+	Document string `json:"document" binding:"required"`
 }
 
 type PatchClientInput struct {
