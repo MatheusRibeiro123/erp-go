@@ -4,6 +4,8 @@ import (
 	"errors"
 	"net/http"
 
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,6 +13,8 @@ func HandleError(c *gin.Context, err error) {
 	if err == nil {
 		return
 	}
+
+	fmt.Println("ERROR:", err)
 	switch {
 	case errors.Is(err, ErrNotFound):
 		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})

@@ -17,8 +17,8 @@ type UpdateClientInput struct {
 }
 
 type PatchClientInput struct {
-	Name     *string `json:"name"`
-	Email    *string `json:"email"`
-	Phone    *string `json:"phone"`
-	Document *string `json:"document"`
+	Name     *string `json:"name" binding:"omitempty,min=1"`
+	Email    *string `json:"email" binding:"omitempty,email"`
+	Phone    *string `json:"phone" binding:"omitempty,min=1"`
+	Document *string `json:"document" binding:"omitempty,min=1"`
 }
