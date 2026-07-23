@@ -21,4 +21,4 @@ type PatchClientInput struct {
 	Email    *string `json:"email" binding:"omitempty,email"`
 	Phone    *string `json:"phone" binding:"omitempty,min=1"`
 	Document *string `json:"document" binding:"omitempty,min=1"`
-}
+}                                               
