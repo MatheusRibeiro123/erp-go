@@ -62,8 +62,8 @@ func (h *ProductHandler) Create(c *gin.Context) {
 	product := models.Product{
 		Name:          input.Name,
 		Description:   input.Description,
-		Price:         input.Price,
-		StockQuantity: input.StockQuantity,
+		Price:         *input.Price,
+		StockQuantity: *input.StockQuantity,
 	}
 
 	id, err := h.Service.Create(product)
@@ -97,8 +97,8 @@ func (h *ProductHandler) Update(c *gin.Context) {
 	product := models.Product{
 		Name:          input.Name,
 		Description:   input.Description,
-		Price:         input.Price,
-		StockQuantity: input.StockQuantity,
+		Price:         *input.Price,
+		StockQuantity: *input.StockQuantity,
 	}
 
 	err = h.Service.Update(idInt, product)

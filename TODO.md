@@ -18,7 +18,7 @@
 - [x] Retorno 404 para recurso não encontrado
 - [x] Tratamento centralizado de erros do PostgreSQL
 - [x] Aplicar Error Handler global
-- [ ] Validar entradas (DTO + Binding Gin)
+- [x] Validar entradas (DTO + Binding Gin)
 
 ---
 
