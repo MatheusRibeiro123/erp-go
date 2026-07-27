@@ -35,16 +35,17 @@
 ## Melhorias
 
 - [x] PATCH
-- [ ] Retorno 404 para recurso não encontrado
-- [ ] Aplicar tratamento centralizado de erros
-- [ ] Validar entradas (DTO + Binding Gin)
+- [x] Retorno 404 para recurso não encontrado
+- [x] Tratamento centralizado de erros do PostgreSQL
+- [x] Aplicar Error Handler global
+- [x] Validar entradas (DTO + Binding Gin)
 
 ---
 
 # 🔵 PADRONIZAÇÃO DA API
 
 - [ ] Padronizar respostas JSON
-- [ ] Retornar HTTP 201 nos POSTs
+- [x] Retornar HTTP 201 nos POSTs
 - [ ] Retornar HTTP 204 nos DELETEs
 - [ ] Garantir listas vazias ao invés de null
 
