@@ -3,6 +3,7 @@ package handlers
 import (
 	"erp-go/internal/dto"
 	"erp-go/internal/models"
+	"erp-go/internal/responses"
 	"erp-go/internal/services"
 	"net/http"
 	"strconv"
@@ -26,7 +27,7 @@ func (h *ClientHandler) GetAll(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, clients)
+	responses.Success(c, "", clients)
 }
 
 // handler para buscar um cliente por ID
@@ -48,7 +49,7 @@ func (h *ClientHandler) GetByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, client)
+	responses.Success(c, "", client)
 }
 
 // handler para criar um novo cliente
@@ -76,7 +77,7 @@ func (h *ClientHandler) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"id": id})
+	responses.Created(c, "Client created successfully", gin.H{"id": id})
 }
 
 // handler para atualizar um cliente existente
@@ -112,7 +113,7 @@ func (h *ClientHandler) Update(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Client updated successfully"})
+	responses.Success(c, "Client updated successfully", nil)
 }
 
 // handler para deletar um cliente existente
