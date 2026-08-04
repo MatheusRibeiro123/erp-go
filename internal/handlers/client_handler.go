@@ -134,7 +134,7 @@ func (h *ClientHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Client deleted successfully"})
+	responses.NoContent(c)
 }
 
 // handler para atualizar parcialmente um cliente existente
@@ -161,5 +161,5 @@ func (h *ClientHandler) Patch(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Client updated partially successfully"})
+	responses.Success(c, "Client updated partially successfully", nil)
 }

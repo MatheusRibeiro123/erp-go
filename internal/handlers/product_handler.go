@@ -4,6 +4,7 @@ import (
 	"erp-go/internal/apperrors"
 	"erp-go/internal/dto"
 	"erp-go/internal/models"
+	"erp-go/internal/responses"
 	"erp-go/internal/services"
 	"net/http"
 
@@ -24,7 +25,7 @@ func (h *ProductHandler) GetAll(c *gin.Context) {
 		apperrors.HandleError(c, err)
 		return
 	}
-	c.JSON(http.StatusOK, products)
+	responses.Success(c, "", products)
 }
 
 // handler para buscar um produto por ID
@@ -45,7 +46,7 @@ func (h *ProductHandler) GetByID(c *gin.Context) {
 		return
 
 	}
-	c.JSON(http.StatusOK, product)
+	responses.Success(c, "", product)
 }
 
 // handler para criar um novo produto
@@ -73,7 +74,7 @@ func (h *ProductHandler) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"id": id})
+	responses.Created(c, "Product created successfully", gin.H{"id": id})
 }
 
 // handler para atualizar um produto existente
@@ -106,7 +107,7 @@ func (h *ProductHandler) Update(c *gin.Context) {
 		apperrors.HandleError(c, err)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})
+	responses.Success(c, "Product updated successfully", nil)
 }
 
 // handler para deletar um produto
@@ -124,7 +125,7 @@ func (h *ProductHandler) Delete(c *gin.Context) {
 		apperrors.HandleError(c, err)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
+	responses.NoContent(c)
 }
 
 // handler para atualizar parcialmente um produto
@@ -148,5 +149,5 @@ func (h *ProductHandler) Patch(c *gin.Context) {
 		apperrors.HandleError(c, err)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})
+	responses.Success(c, "Product updated successfully", nil)
 }

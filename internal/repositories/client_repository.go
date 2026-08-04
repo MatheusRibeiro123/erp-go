@@ -21,7 +21,7 @@ func (r *ClientRepository) GetAll() ([]models.Client, error) {
 	}
 	defer rows.Close()
 
-	var clients []models.Client
+	clients := make([]models.Client, 0)
 
 	for rows.Next() {
 

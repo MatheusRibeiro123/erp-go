@@ -44,10 +44,10 @@
 
 # 🔵 PADRONIZAÇÃO DA API
 
-- [ ] Padronizar respostas JSON
+- [x] Padronizar respostas JSON
 - [x] Retornar HTTP 201 nos POSTs
-- [ ] Retornar HTTP 204 nos DELETEs
-- [ ] Garantir listas vazias ao invés de null
+- [x] Retornar HTTP 204 nos DELETEs
+- [x] Garantir listas vazias ao invés de null
 
 ---
 
