@@ -20,6 +20,22 @@ type ClientHandler struct {
 // handler para buscar todos os clientes
 func (h *ClientHandler) GetAll(c *gin.Context) {
 
+	limitStr := c.Query("limit")
+	limitInt, err := strconv.Atoi(limitStr)
+
+	limit := 10 // valor padrão
+	if err == nil && limitInt > 0 {
+		limit = limitInt
+	}
+
+	pageStr := c.Query("page")
+	pageInt, err := strconv.Atoi(pageStr)
+
+	page := 1 // valor padrão
+	if err == nil && pageInt > 0 {
+		page = pageInt
+	}
+
 	clients, err := h.Service.GetAll()
 
 	if err != nil {

@@ -12,7 +12,7 @@ type ClientRepository struct {
 
 // função para obter todos os clientes do banco de dados
 
-func (r *ClientRepository) GetAll() ([]models.Client, error) {
+func (r *ClientRepository) GetAll(page int, limit int) ([]models.Client, error) {
 	query := "SELECT id , name , email , phone , document , created_at FROM clients"
 
 	rows, err := r.DB.Query(query)

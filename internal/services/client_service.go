@@ -11,8 +11,8 @@ type ClientService struct {
 }
 
 // serviço para obter todos os clientes, delegando a responsabilidade para o repositório
-func (s *ClientService) GetAll() ([]models.Client, error) {
-	return s.Repository.GetAll()
+func (s *ClientService) GetAll(page int, limit int) ([]models.Client, error) {
+	return s.Repository.GetAll(page, limit)
 }
 
 // serviço para obter um cliente por ID, delegando a responsabilidade para o repositório
