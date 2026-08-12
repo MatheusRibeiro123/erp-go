@@ -12,12 +12,20 @@ type ClientRepository struct {
 
 // função para obter todos os clientes do banco de dados
 
-func (r *ClientRepository) GetAll(page int, limit int) ([]models.Client, error) {
-	query := "SELECT id , name , email , phone , document , created_at FROM clients"
+func (r *ClientRepository) GetAll(page int, limit int) ([]models.Client, int, error) {
+	query := "SELECT id , name , email , phone , document , created_at FROM clients ORDER BY id LIMIT $1 OFFSET $2"
 
-	rows, err := r.DB.Query(query)
+	offset := (page - 1) * limit
+
+	var total int
+	err := r.DB.QueryRow("SELECT COUNT(*) FROM clients").Scan(&total)
 	if err != nil {
-		return nil, apperrors.TranslatePostgresError(err)
+		return nil, 0, apperrors.TranslatePostgresError(err)
+	}
+
+	rows, err := r.DB.Query(query, limit, offset)
+	if err != nil {
+		return nil, total, apperrors.TranslatePostgresError(err)
 	}
 	defer rows.Close()
 
@@ -29,15 +37,15 @@ func (r *ClientRepository) GetAll(page int, limit int) ([]models.Client, error) 
 
 		err := rows.Scan(&client.ID, &client.Name, &client.Email, &client.Phone, &client.Document, &client.CreatedAt)
 		if err != nil {
-			return nil, err
+			return nil, total, err
 		}
 		clients = append(clients, client)
 	}
 
 	if err = rows.Err(); err != nil {
-		return nil, apperrors.TranslatePostgresError(err)
+		return nil, total, apperrors.TranslatePostgresError(err)
 	}
-	return clients, nil
+	return clients, total, nil
 
 }
 

@@ -36,7 +36,7 @@ func (h *ClientHandler) GetAll(c *gin.Context) {
 		page = pageInt
 	}
 
-	clients, err := h.Service.GetAll()
+	clients, total, err := h.Service.GetAll(page, limit)
 
 	if err != nil {
 		apperrors.HandleError(c, err)
