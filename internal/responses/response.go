@@ -11,6 +11,28 @@ type SuccessResponse struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
+type PaginatedResponse struct {
+	Data       interface{} `json:"data"`
+	Pagination Pagination  `json:"pagination"`
+}
+
+type Pagination struct {
+	Page  int `json:"page"`
+	Limit int `json:"limit"`
+	Total int `json:"total"`
+}
+
+func Paginated(c *gin.Context, data interface{}, page int, limit int, total int) {
+	c.JSON(http.StatusOK, PaginatedResponse{
+		Data: data,
+		Pagination: Pagination{
+			Page:  page,
+			Limit: limit,
+			Total: total,
+		},
+	})
+}
+
 func Response(c *gin.Context, statusCode int, message string, data interface{}) {
 	c.JSON(statusCode, SuccessResponse{
 		Message: message,

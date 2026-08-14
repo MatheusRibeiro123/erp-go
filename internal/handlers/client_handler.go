@@ -43,7 +43,7 @@ func (h *ClientHandler) GetAll(c *gin.Context) {
 		return
 	}
 
-	responses.Success(c, "", clients)
+	responses.Paginated(c, clients, page, limit, total)
 }
 
 // handler para buscar um cliente por ID
