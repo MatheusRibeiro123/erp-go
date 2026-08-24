@@ -11,8 +11,8 @@ type ProductService struct {
 }
 
 // serviço para obter todos os produtos, delegando a responsabilidade para o repositório
-func (s *ProductService) GetAll() ([]models.Product, error) {
-	return s.Repository.GetAll()
+func (s *ProductService) GetAll(page int, limit int) ([]models.Product, int, error) {
+	return s.Repository.GetAll(page, limit)
 }
 
 // serviço para obter um produto por ID, delegando a responsabilidade para o repositório

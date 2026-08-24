@@ -11,13 +11,22 @@ type ProductRepository struct {
 }
 
 // função para obter todos os produtos do banco de dados
-func (r *ProductRepository) GetAll() ([]models.Product, error) {
+func (r *ProductRepository) GetAll(page int, limit int) ([]models.Product, int, error) {
 
-	query := "SELECT id, name, description, stock_quantity, price, created_at FROM products"
+	query := "SELECT id, name, description, stock_quantity, price, created_at FROM products ORDER BY id LIMIT $1 OFFSET $2"
 
-	rows, err := r.DB.Query(query)
+	offset := (page - 1) * limit
+
+	var total int
+
+	err := r.DB.QueryRow("SELECT COUNT(*) FROM products").Scan(&total)
 	if err != nil {
-		return nil, apperrors.TranslatePostgresError(err)
+		return nil, 0, apperrors.TranslatePostgresError(err)
+	}
+
+	rows, err := r.DB.Query(query, limit, offset)
+	if err != nil {
+		return nil, total, apperrors.TranslatePostgresError(err)
 	}
 
 	defer rows.Close()
@@ -27,19 +36,27 @@ func (r *ProductRepository) GetAll() ([]models.Product, error) {
 	for rows.Next() {
 		var product models.Product
 
-		err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.StockQuantity, &product.Price, &product.CreatedAt)
+		err := rows.Scan(
+			&product.ID,
+			&product.Name,
+			&product.Description,
+			&product.StockQuantity,
+			&product.Price,
+			&product.CreatedAt,
+		)
+
 		if err != nil {
-			return nil, err
+			return nil, total, err
 		}
 
 		products = append(products, product)
 	}
 
 	if err = rows.Err(); err != nil {
-		return nil, apperrors.TranslatePostgresError(err)
+		return nil, total, apperrors.TranslatePostgresError(err)
 	}
 
-	return products, nil
+	return products, total, nil
 }
 
 // função para obter um produto específico pelo ID

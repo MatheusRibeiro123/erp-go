@@ -20,12 +20,42 @@ type ProductHandler struct {
 // handler para buscar todos os produtos
 func (h *ProductHandler) GetAll(c *gin.Context) {
 
-	products, err := h.Service.GetAll()
+	limit := 10 // valor padrão
+
+	limitStr := c.Query("limit")
+	if limitStr != "" {
+		limitInt, err := strconv.Atoi(limitStr)
+
+		if err != nil || limitInt < 1 || limitInt > 100 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid limit"})
+			return
+		}
+
+		limit = limitInt
+	}
+
+	page := 1 // valor padrão
+
+	pageStr := c.Query("page")
+	if pageStr != "" {
+		pageInt, err := strconv.Atoi(pageStr)
+
+		if err != nil || pageInt < 1 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid page"})
+			return
+		}
+
+		page = pageInt
+	}
+
+	products, total, err := h.Service.GetAll(page, limit)
+
 	if err != nil {
 		apperrors.HandleError(c, err)
 		return
 	}
-	responses.Success(c, "", products)
+
+	responses.Paginated(c, products, page, limit, total)
 }
 
 // handler para buscar um produto por ID
