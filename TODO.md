@@ -53,15 +53,15 @@
 
 # 🟣 MELHORIAS GERAIS
 
-- [ ] Paginação
+- [x] Paginação
 - [ ] Filtros de busca
-- [ ] Docker
-- [ ] Docker Compose
+- [x] Docker
+- [x] Docker Compose
 
 ---
 
 # 📚 DOCUMENTAÇÃO
 
-- [ ] Revisar estrutura do projeto
-- [ ] Atualizar README
+- [x] Revisar estrutura do projeto
+- [x] Atualizar README
 - [ ] Criar Release v1.0.0
